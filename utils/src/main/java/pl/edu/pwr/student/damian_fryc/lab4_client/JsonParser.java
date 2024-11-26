@@ -2,17 +2,38 @@ package pl.edu.pwr.student.damian_fryc.lab4_client;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-public class JsonParser {
-	public void parseJson(String jsonString) {
-		JSONObject json = new JSONObject(jsonString);
-		System.out.println("Nazwa kategorii: " + json.getString("name"));
+import java.util.HashSet;
+import java.util.Set;
 
-		JSONArray variables = json.getJSONArray("variables");
-		for (int i = 0; i < variables.length(); i++) {
-			JSONObject variable = variables.getJSONObject(i);
-			System.out.println("ID: " + variable.getInt("id"));
-			System.out.println("Nazwa: " + variable.getString("name"));
-			System.out.println("Wartość: " + variable.getInt("value"));
-		}
-	}
+public class JsonParser {
+	static JSONArray getCategories(JSONArray areas){
+        JSONArray categories = new JSONArray();
+        Set<Integer> uniqueCategories = new HashSet<>();
+
+        for (int i = 0; i < areas.length(); i++) {
+            JSONObject item = areas.getJSONObject(i);
+            if (item.getBoolean("czy-zmienne") && !uniqueCategories.contains(item.getInt("id-poziom"))) {
+                JSONObject selectedItem = new JSONObject();
+                uniqueCategories.add(item.getInt("id-poziom"));
+                selectedItem.put("id-poziom", item.getInt("id-poziom"));
+                selectedItem.put("nazwa-poziom", item.getString("nazwa-poziom"));
+                categories.put(selectedItem);
+            }
+        }
+        return categories;
+    }
+    static JSONArray getTopics(JSONArray areas, int categoryId){
+        JSONArray topics = new JSONArray();
+
+        for (int i = 0; i < areas.length(); i++) {
+            JSONObject item = areas.getJSONObject(i);
+            if (item.getBoolean("czy-zmienne") && item.getInt("id-poziom") == categoryId) {
+                JSONObject selectedItem = new JSONObject();
+                selectedItem.put("id", item.getInt("id"));
+                selectedItem.put("nazwa", item.getString("nazwa"));
+                topics.put(selectedItem);
+            }
+        }
+        return topics;
+    }
 }

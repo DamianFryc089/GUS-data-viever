@@ -6,10 +6,10 @@ import org.json.JSONArray;
 public class Main {
 	public static void main(String[] args) {
 		ApiClient client = new ApiClient();
-		JSONArray data = client.getData();
-		for (int i = 0; i < data.length(); i++) {
-			JSONObject obj = data.getJSONObject(i);
-			System.out.println(obj.toString());
-		}
+//		JSONArray data = client.getData("",ApiClient.Language.PL);
+//		for (int i = 0; i < data.length(); i++) {
+//			JSONObject obj = data.getJSONObject(i);
+//			System.out.println(obj.toString());
+//		}
 	}
 }
