@@ -210,25 +210,12 @@ public class Main extends Application {
 
 		for (int i = 0; i < headers.length(); i++) {
 			String header = headers.getString(i);
-			// float columns
-			if(i < 2){
-				TableColumn<Map<String, Object>, Object> column = new TableColumn<>(header);
-				column.setCellValueFactory(param -> {
-					Object value = param.getValue().get(header);
-					return new SimpleObjectProperty<>(value);
-				});
-				table.getColumns().add(column);
-			}
-			// string columns
-			else {
-				TableColumn<Map<String, Object>, String> column = new TableColumn<>(header);
-				column.setCellValueFactory(param -> {
-					String value = (String) param.getValue().get(header);
-					return new SimpleStringProperty(value);
-				});
-				table.getColumns().add(column);
-			}
-
+			TableColumn<Map<String, Object>, Object> column = new TableColumn<>(header);
+			column.setCellValueFactory(param -> {
+				Object value = param.getValue().get(header);
+				return new SimpleObjectProperty<>(value);
+			});
+			table.getColumns().add(column);
 		}
 
 		// update data
