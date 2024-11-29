@@ -42,7 +42,7 @@ public class CacheHandler {
     public static void banRequest(String request) {
 		JSONArray bannedRequests = getBannedRequestList();
         bannedRequests.put(request);
-		File file = new File(parseRequestToFileName("banned_requests.json"));
+		File file = new File(parseRequestToFileName("banned_requests"));
 		try (FileWriter fileWriter = new FileWriter(file)) {
 			fileWriter.write(bannedRequests.toString(4));
 		} catch (IOException e) {
@@ -50,7 +50,7 @@ public class CacheHandler {
 		}
     }
 	public static JSONArray getBannedRequestList() {
-		File file = new File(parseRequestToFileName("banned_requests.json"));
+		File file = new File(parseRequestToFileName("banned_requests"));
 		if (!file.exists()) return new JSONArray();
 		String content = readFileContent(file);
 
