@@ -1,6 +1,5 @@
 package pl.edu.pwr.student.damian_fryc.lab4_client;
 import org.json.JSONArray;
-import org.json.JSONObject;
 
 import java.io.*;
 import java.util.Scanner;
@@ -11,8 +10,7 @@ public class CacheHandler {
 		if (!file.exists()) return null;
 
 		String content = readFileContent(file);
-		JSONArray data = new JSONArray(content);
-		return data;
+        return new JSONArray(content);
 	}
 
 	public static void saveToCache(String request, JSONArray data) {
@@ -41,10 +39,23 @@ public class CacheHandler {
 		return content.toString().trim();
 	}
 
-	public static JSONObject readCacheTEST(String fileName) {
-		File file = new File(fileName);
+    public static void banRequest(String request) {
+		JSONArray bannedRequests = getBannedRequestList();
+        bannedRequests.put(request);
+		File file = new File(parseRequestToFileName("banned_requests.json"));
+		try (FileWriter fileWriter = new FileWriter(file)) {
+			fileWriter.write(bannedRequests.toString(4));
+		} catch (IOException e) {
+			System.err.println("Couldn't write to banned_requests file: " + e.getMessage());
+		}
+    }
+	public static JSONArray getBannedRequestList() {
+		File file = new File(parseRequestToFileName("banned_requests.json"));
+		if (!file.exists()) return new JSONArray();
 		String content = readFileContent(file);
-		JSONObject data = new JSONObject(content);
-		return data;
+
+        return new JSONArray(content);
 	}
+
+
 }
